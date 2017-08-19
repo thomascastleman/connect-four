@@ -7,6 +7,7 @@ class AI(game.ConnectFourGame):
         print "new ai"
 
 
+    # returns integer for which column to move to
     def determineMove(self, board):
         threats = self.getAllThreats(board)
 

@@ -11,6 +11,8 @@ class Position():
         self.__y = y
         self.__value = val
 
+    # getters and setters:
+
     def getX(self):
         return self.__x
 
@@ -19,3 +21,6 @@ class Position():
 
     def getValue(self):
         return self.__value
+
+    def getInfo(self):
+        return "(" + str(self.__x) + ", " + str(self.__y) + ") " + self.__value

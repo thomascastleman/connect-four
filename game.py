@@ -1,4 +1,4 @@
-
+import position
 
 class ConnectFourGame(object):
 
@@ -11,6 +11,19 @@ class ConnectFourGame(object):
     def __init__(self):
         print "new game"
 
+    # push position object of a given type to a given column in board
+    def move(self, column, type):
+        # check if index in range
+        if column < len(self.__board):
+            p = position.Position(type, column, len(self.__board[column]) - 1)
+            self.__board[column].append(p)
+        else:
+            print "Column out of range. Unable to make move"
+
+
+
+
+
     def getBoard(self):
         return self.__board
 
@@ -21,5 +34,5 @@ class ConnectFourGame(object):
             i += 1
 
             for y in x:
-                print y,
+                print "[" + y.getInfo() + "]",
             print ""
