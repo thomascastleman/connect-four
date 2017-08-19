@@ -33,21 +33,15 @@ def main():
         else:
             chain.append(position.Position("null", x, 0))
 
-    t = threat.Threat("HORIZONTAL", chain)
+    vert = a.getVerticalThreats(g.getBoard())
+    print str(len(vert)) + " threats found"
 
-    t.calcPriority()
-    print "P: " + str(t.getPriority()) + "\n"
+    print "\nThreat info: "
+    for v in vert:
+        v.calcPriority()
+        print v.getInfo()
+    print "\n\n"
 
-    c = t.getChain()
-    for i in c:
-        print i.getInfo()
-
-    t.determineSuggestions()
-    s = t.getSuggestions()
-
-    print len(s)
-    for i in s:
-        print i.getInfo()
 
     g.printBoard()
 

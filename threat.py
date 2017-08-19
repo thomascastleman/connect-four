@@ -11,8 +11,6 @@ class Threat(game.ConnectFourGame):
     def __init__(self, type, chain):
         self.__type = type
         self.__chain = chain
-        print self.__type
-
 
     # calculate priority of threat
     def calcPriority(self):
@@ -31,23 +29,21 @@ class Threat(game.ConnectFourGame):
     # get suggestions for neutralization moves
     def determineSuggestions(self):
         # if priority 1, take only null position as suggestion
-        if self.__priority == 1:
+        if self.__priority == 1 or self.__type == "VERTICAL":
             for p in self.__chain:
                 if p.getValue() == "null":
                     self.__suggestions.append(p)
+                    return
         # otherwise, get all null positions that are accessible in one move
         else:
             for p in self.__chain:
                 # if empty position
                 if p.getValue() == "null":
 
-                    if self.__type == "VERTICAL":
-                        return p
-                    else:
-                        # if valid move
-                        if p.getY() == len(super(Threat, self).getBoard()[p.getX()]):
-                            # add to suggestions
-                            self.__suggestions.append(p)
+                    # if valid move
+                    if p.getY() == len(super(Threat, self).getBoard()[p.getX()]):
+                        # add to suggestions
+                        self.__suggestions.append(p)
 
 
 
@@ -64,3 +60,13 @@ class Threat(game.ConnectFourGame):
 
     def getSuggestions(self):
         return self.__suggestions
+
+
+
+    def getInfo(self):
+        chainString = ""
+        for i in self.__chain:
+            s = "[" + i.getInfo() + "]"
+            chainString += (s + " ")
+
+        return self.__type + " p == " + str(self.__priority) + " " + chainString

@@ -3,6 +3,8 @@ import position
 class ConnectFourGame(object):
 
     __board = []
+    __bWidth = 7
+    __bHeight = 6
 
     # initialize board as 2d array
     for i in range(0, 7):
@@ -36,3 +38,9 @@ class ConnectFourGame(object):
             for y in x:
                 print "[" + y.getInfo() + "]",
             print ""
+
+    def getbWidth(self):
+        return self.__bWidth
+
+    def getbHeight(self):
+        return self.__bHeight
