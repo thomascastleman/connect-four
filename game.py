@@ -14,11 +14,11 @@ class ConnectFourGame(object):
     # push position object of a given type to a given column in board
     def move(self, column, type):
         # check if index in range
-        if column < len(self.__board):
-            p = position.Position(type, column, len(self.__board[column]) - 1)
+        if column < len(self.__board) and len(self.__board[column]) < 6:
+            p = position.Position(type, column, len(self.__board[column]))
             self.__board[column].append(p)
         else:
-            print "Column out of range. Unable to make move"
+            print "Unable to make move"
 
 
 
