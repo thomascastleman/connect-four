@@ -61,8 +61,6 @@ class Threat(game.ConnectFourGame):
     def getSuggestions(self):
         return self.__suggestions
 
-
-
     def getInfo(self):
         chainString = ""
         for i in self.__chain:

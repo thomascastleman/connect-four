@@ -11,28 +11,18 @@ def main():
 
     print ""
 
-    board = g.getBoard()
-    for x in range(0, 7):
-        rand = random.randrange(0, 3)
-        if rand == 0:
-            s = "ai"
-        elif rand == 1:
+
+    # make some random moves
+    for i in range(0, 7):
+        r = random.randrange(0, 2)
+        if r == 0:
             s = "user"
         else:
-            s = "null"
-
-        if (s != "null"):
-            p = position.Position(s, x, 0)
-            board[x].append(p)
+            s = "ai"
+        g.move(random.randrange(0, 7), s)
 
 
-    chain = []
-    for x in range(0, 4):
-        if len(board[x]) > 0:
-            chain.append(g.getBoard()[x][0])
-        else:
-            chain.append(position.Position("null", x, 0))
-
+    # debug vertical threats
     vert = a.getVerticalThreats(g.getBoard())
     print str(len(vert)) + " threats found"
 
@@ -49,3 +39,20 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

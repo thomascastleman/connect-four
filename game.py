@@ -11,7 +11,7 @@ class ConnectFourGame(object):
         __board.append([])
 
     def __init__(self):
-        print "new game"
+        print ""
 
     # push position object of a given type to a given column in board
     def move(self, column, type):

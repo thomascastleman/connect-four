@@ -4,7 +4,7 @@ import game, position, threat
 class AI(game.ConnectFourGame):
 
     def __init__(self):
-        print "new ai"
+        print ""
 
 
     # returns integer for which column to move to
@@ -51,8 +51,9 @@ class AI(game.ConnectFourGame):
                 # trace down column until bottom or ai position found
                 for i in range(len(col) - 1, -1, -1):
                     if col[i].getValue() == "ai":
-                        lowest = i
                         break
+                    else:
+                        lowest = i
 
                 # if threat not going to reach top of column
                 if lowest <= super(AI, self).getbHeight() - 4:
