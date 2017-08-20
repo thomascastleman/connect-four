@@ -17,34 +17,18 @@ def main():
         g.move(random.randrange(0, 7), s)
 
 
-    # # debug vertical threats
-    # vert = a.getVerticalThreats(g.getBoard())
-    # print str(len(vert)) + " threats found"
-    #
-    # print "\nThreat info: "
-    # for v in vert:
-    #     v.calcPriority()
-    #     print v.getInfo()
-    # print "\n\n"
 
-    # # debug horizontal threats
-    # horiz = a.getHorizontalThreats(g.getBoard())
-    # print str(len(horiz)) + " threats found"
-    #
-    # print "\nThreat info: "
-    # for h in horiz:
-    #     h.calcPriority()
-    #     print h.getInfo()
-    # print "\n\n"
-
-    # debug diagonal threats
-    d = a.getDiagonalThreats(g.getBoard())
-    print str(len(d)) + " threats found"
+    # debug threats
+    threats = a.getAllThreats(g.getBoard())
+    print str(len(threats)) + " threats found"
 
     print "\nThreat info: "
-    for t in d:
+    for t in threats:
         t.calcPriority()
+        t.determineSuggestions()
         print t.getInfo()
+        print ""
+
     print "\n\n"
 
 

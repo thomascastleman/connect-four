@@ -28,6 +28,8 @@ class Threat(game.ConnectFourGame):
 
     # get suggestions for neutralization moves
     def determineSuggestions(self):
+        self.__suggestions = []
+
         # if priority 1, take only null position as suggestion
         if self.__priority == 1 or self.__type == "VERTICAL":
             for p in self.__chain:
@@ -67,4 +69,9 @@ class Threat(game.ConnectFourGame):
             s = "[" + i.getInfo() + "]"
             chainString += (s + " ")
 
-        return self.__type + " p == " + str(self.__priority) + " " + chainString
+        suggestString = ""
+        for i in self.__suggestions:
+            s = "(" + str(i.getX()) + ", " + str(i.getY()) + ") "
+            suggestString += s
+
+        return self.__type + " p == " + str(self.__priority) + " " + chainString + "   suggestions: " + suggestString

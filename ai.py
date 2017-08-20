@@ -4,7 +4,7 @@ import game, position, threat
 class AI(game.ConnectFourGame):
 
     def __init__(self):
-        print ""
+        pass
 
 
     # returns integer for which column to move to
@@ -23,13 +23,11 @@ class AI(game.ConnectFourGame):
 
         h = self.getHorizontalThreats(board)
         v = self.getVerticalThreats(board)
-        r = self.getRDiagThreats(board)
-        l = self.getLDiagThreats(board)
+        d = self.getDiagonalThreats(board)
 
         th.extend(h)
         th.extend(v)
-        th.extend(r)
-        th.extend(l)
+        th.extend(d)
 
         return th
 
@@ -81,13 +79,14 @@ class AI(game.ConnectFourGame):
         for r in range(0, max):
             # get every non empty row
             row = []
-            for col in board:
+
+            for c in range(0, len(board)):
                 # if position exists
-                if r < len(col):
-                    row.append(col[r])
-                # otherwise create null position
+                if r < len(board[c]):
+                    row.append(board[c][r])
                 else:
-                    row.append(position.Position("null", board.index(col), r))
+                    # otherwise create null position
+                    row.append(position.Position("null", c, r))
 
             # add all threats in row to threats array
             threats.extend(self.parseForThreats(row, "HORIZONTAL"))
