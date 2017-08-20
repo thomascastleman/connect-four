@@ -4,15 +4,10 @@ import random
 
 def main():
 
-    th = threat.Threat("VERTICAL", [])
     a = ai.AI()
     g = game.ConnectFourGame()
-    pos = position.Position("null", 3, 2)
 
-    print ""
-
-
-    # make some random moves
+    # make some random moves for debug
     for i in range(0, 7):
         r = random.randrange(0, 2)
         if r == 0:
@@ -32,14 +27,24 @@ def main():
     #     print v.getInfo()
     # print "\n\n"
 
-    # debug horizontal threats
-    horiz = a.getHorizontalThreats(g.getBoard())
-    print str(len(horiz)) + " threats found"
+    # # debug horizontal threats
+    # horiz = a.getHorizontalThreats(g.getBoard())
+    # print str(len(horiz)) + " threats found"
+    #
+    # print "\nThreat info: "
+    # for h in horiz:
+    #     h.calcPriority()
+    #     print h.getInfo()
+    # print "\n\n"
+
+    # debug diagonal threats
+    d = a.getDiagonalThreats(g.getBoard())
+    print str(len(d)) + " threats found"
 
     print "\nThreat info: "
-    for h in horiz:
-        h.calcPriority()
-        print h.getInfo()
+    for t in d:
+        t.calcPriority()
+        print t.getInfo()
     print "\n\n"
 
 

@@ -90,8 +90,7 @@ class AI(game.ConnectFourGame):
                     row.append(position.Position("null", board.index(col), r))
 
             # add all threats in row to threats array
-            t = self.parseForThreats(row, "HORIZONTAL")
-            threats.extend(t)
+            threats.extend(self.parseForThreats(row, "HORIZONTAL"))
 
         return threats
 
@@ -129,12 +128,63 @@ class AI(game.ConnectFourGame):
 
         return threats
 
-    def getRDiagThreats(self, board):
-        print ""
+    def getDiagonalThreats(self, board):
+        threats = []
 
-    def getLDiagThreats(self, board):
-        print ""
+        y = 0
+        # rightX starts at n - 1 from last col index
+        rightX = super(AI, self).getbWidth() - 4
 
+        # leftX starts at n - 1 from first column index
+        leftX = 0 + (4 - 1) # don't give me that look
+
+        # as rightX decrements towards left and leftX increments towards right
+        while rightX >= 0 and leftX < super(AI, self).getbWidth():
+            # get right diagonal
+            diag = self.getDiagonalFromStart(board, rightX, y, "right")
+            threats.extend(self.parseForThreats(diag, "RDIAG"))
+            rightX -= 1
+
+            # get left diagonal
+            diag = self.getDiagonalFromStart(board, leftX, y, "left")
+            threats.extend(self.parseForThreats(diag, "LDIAG"))
+            leftX += 1
+
+
+        # rightX rests at first column as y ascends
+        rightX = 0
+        # leftX rests at last column as y ascends
+        leftX = super(AI, self).getbWidth() - 1
+
+        # y ascends to column height - n (+1 is for exclusive index in for loop)
+        for y in range(1, (super(AI, self).getbHeight() - 4) + 1):
+            # get right diagonal
+            diag = self.getDiagonalFromStart(board, rightX, y, "right")
+            threats.extend(self.parseForThreats(diag, "RDIAG"))
+
+            # get left diagonal
+            diag = self.getDiagonalFromStart(board, leftX, y, "left")
+            threats.extend(self.parseForThreats(diag, "LDIAG"))
+
+        return threats
+
+    def getDiagonalFromStart(self, board, startX, startY, direction):
+        diagonal = []
+
+        tempX = startX
+        tempY = startY
+        while (tempX < super(AI, self).getbWidth() if direction == "right" else tempX >= 0) and tempY < super(AI, self).getbHeight():
+            if len(board[tempX]) > tempY:
+                diagonal.append(board[tempX][tempY])
+            else:
+                p = position.Position("null", tempX, tempY)
+                diagonal.append(p)
+
+            # increment or decrement tempX based on direction
+            tempX = (tempX + 1 if direction == "right" else tempX - 1)
+            tempY += 1
+
+        return diagonal
 
 
 
