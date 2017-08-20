@@ -34,11 +34,66 @@ class AI(game.ConnectFourGame):
         return th
 
     # parse an array of positions for threats (can be used for horizontal and diagonals)
-    def parseForThreats(self, section):
-        print ""
+    def parseForThreats(self, section, type):
+        threats = []                # array of all threats found in section
+        startingPositions = []      # array of starting positions of threats, to prevent duplicates
+
+        for pos in section:
+            # if null position found, check for threats
+            if pos.getValue() == "null":
+
+                # for every possible surrounding threat
+                for x in range(pos.getX() - 3, pos.getX() + 1):
+
+                    # ensure index in range
+                    if x >= 0 and x <= len(section) - 4:
+
+                        # check if threat already been evaluated to prevent duplicates
+                        if x not in startingPositions:
+                            # get subsection
+                            chain = section[x: x + 4]
+
+                            # check if threat legitimate (no ai positions, and contains at least one user position)
+                            isThreat = True
+                            numUser = 0
+                            for p in chain:
+                                if p.getValue() == "ai":
+                                    isThreat = False
+                                elif p.getValue() == "user":
+                                    numUser += 1
+
+                            if isThreat and numUser > 0:
+                                t = threat.Threat(type, chain)
+                                threats.append(t)
+                                startingPositions.append(x)
+
+        return threats
 
     def getHorizontalThreats(self, board):
-        print ""
+        max = 0
+        # get max column size
+        for col in board:
+            if len(col) > max:
+                max = len(col)
+
+        threats = []
+
+        for r in range(0, max):
+            # get every non empty row
+            row = []
+            for col in board:
+                # if position exists
+                if r < len(col):
+                    row.append(col[r])
+                # otherwise create null position
+                else:
+                    row.append(position.Position("null", board.index(col), r))
+
+            # add all threats in row to threats array
+            t = self.parseForThreats(row, "HORIZONTAL")
+            threats.extend(t)
+
+        return threats
 
     def getVerticalThreats(self, board):
         threats = []
@@ -73,10 +128,6 @@ class AI(game.ConnectFourGame):
                     threats.append(t)
 
         return threats
-
-
-
-
 
     def getRDiagThreats(self, board):
         print ""
