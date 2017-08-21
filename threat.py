@@ -14,6 +14,7 @@ class Threat(game.ConnectFourGame):
 
     # calculate priority of threat
     def calcPriority(self):
+        self.__priority = 0
         board = super(Threat, self).getBoard()
 
         for pos in self.__chain:

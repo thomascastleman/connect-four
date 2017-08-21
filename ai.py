@@ -1,5 +1,6 @@
 
 import game, position, threat
+import random
 
 class AI(game.ConnectFourGame):
 
@@ -16,6 +17,83 @@ class AI(game.ConnectFourGame):
         # DEFENSIVE:
 
         threats = self.getAllThreats(board)
+
+        # array of all suggestions from the highest priority group (lowest priority value)
+        prioritySuggestions = []
+
+        if len(threats) > 0:
+            threats[0].calcPriority()
+            highestPriority = threats[0].getPriority()
+            leastPriority = threats[0].getPriority()
+
+            # map of move suggestions to their frequencies across all threats
+            suggestFrequency = {}
+
+            # calculate priorities and suggestions
+            for t in threats:
+                # calculate threat priority
+                t.calcPriority()
+
+                # update max and min priority values
+                if t.getPriority() < highestPriority:
+                    highestPriority = t.getPriority()
+                elif t.getPriority() > leastPriority:
+                    leastPriority = t.getPriority()
+
+
+                # get suggestions and suggestion frequencies
+                t.determineSuggestions()
+                sug = t.getSuggestions()
+
+                # add / update suggestion frequency
+                for s in sug:
+                    if s.getX() in suggestFrequency:
+                        suggestFrequency[s.getX()] += 1
+                    else:
+                        suggestFrequency[s.getX()] = 1
+
+                # DEBUG
+                print t.getInfo()
+
+            # in case no suggestions found from highest priority group, try other groups
+            while highestPriority <= leastPriority:
+                prioritySuggestions = []
+
+                for t in threats:
+                    if t.getPriority() == highestPriority:
+
+                        # DEBUG
+
+                        print "\n" + t.getInfo(),
+
+
+                        for s in t.getSuggestions():
+                            if s.getX() not in prioritySuggestions:
+                                prioritySuggestions.append(s.getX())
+
+
+                if len(prioritySuggestions) > 0:
+                    break
+                else:
+                    highestPriority += 1
+
+            print "\n\n"
+
+
+        if len(prioritySuggestions) > 0:
+            maxFreq = prioritySuggestions[0]
+            for move in prioritySuggestions:
+                if suggestFrequency[move] > suggestFrequency[maxFreq]:
+                    maxFreq = move
+
+            # DEBUG
+            print "\n\nHighest frequency move found: " + str(maxFreq)
+
+            return maxFreq
+        else:
+            # no suggestions, make offensive move??
+
+            print "No suggestions found\n"
 
     # get all threats, given a board state
     def getAllThreats(self, board):
