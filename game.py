@@ -22,13 +22,11 @@ class ConnectFourGame(object):
         else:
             print "Unable to make move"
 
+    def checkWin(self):
+        # checks for either player win
+        pass
 
-
-
-
-    def getBoard(self):
-        return self.__board
-
+    # DEBUG
     def printBoard(self):
         i = 0
         for x in self.__board:
@@ -38,6 +36,11 @@ class ConnectFourGame(object):
             for y in x:
                 print "[" + y.getInfo() + "]",
             print ""
+
+    # getters / setters:
+
+    def getBoard(self):
+        return self.__board
 
     def getbWidth(self):
         return self.__bWidth

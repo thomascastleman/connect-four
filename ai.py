@@ -10,12 +10,15 @@ class AI(game.ConnectFourGame):
 
     # returns integer for which column to move to
     def determineMove(self, board):
+        defensiveOption = self.defense(board)
 
+        if defensiveOption == None:
+            return self.offense(board)
+        else:
+            return defensiveOption
 
-
-
-        # DEFENSIVE:
-
+    # get defensive options, given board state
+    def defense(self, board):
         threats = self.getAllThreats(board)
 
         # array of all suggestions from the highest priority group (lowest priority value)
@@ -39,7 +42,6 @@ class AI(game.ConnectFourGame):
                     highestPriority = t.getPriority()
                 elif t.getPriority() > leastPriority:
                     leastPriority = t.getPriority()
-
 
                 # get suggestions and suggestion frequencies
                 t.determineSuggestions()
@@ -66,11 +68,9 @@ class AI(game.ConnectFourGame):
 
                         print "\n" + t.getInfo(),
 
-
                         for s in t.getSuggestions():
                             if s.getX() not in prioritySuggestions:
                                 prioritySuggestions.append(s.getX())
-
 
                 if len(prioritySuggestions) > 0:
                     break
@@ -78,7 +78,6 @@ class AI(game.ConnectFourGame):
                     highestPriority += 1
 
             print "\n\n"
-
 
         if len(prioritySuggestions) > 0:
             maxFreq = prioritySuggestions[0]
@@ -91,9 +90,16 @@ class AI(game.ConnectFourGame):
 
             return maxFreq
         else:
-            # no suggestions, make offensive move??
+            # no suggestions, make offensive move
 
+            # DEBUG
             print "No suggestions found\n"
+
+            return None
+
+    def offense(self, board):
+        # determine offensive move in case of no threats
+        pass
 
     # get all threats, given a board state
     def getAllThreats(self, board):
